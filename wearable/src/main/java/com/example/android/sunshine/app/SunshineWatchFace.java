@@ -141,7 +141,7 @@ public class SunshineWatchFace extends CanvasWatchFaceService {
          */
         boolean mLowBitAmbient;
         private float mHandsStrokeWidth;
-        private int mChinSize;
+        private int mArcsMargin;
 
         @Override
         public void onCreate(SurfaceHolder holder) {
@@ -300,50 +300,66 @@ public class SunshineWatchFace extends CanvasWatchFaceService {
             float centerX = width / 2f;
             float centerY = height / 2f;
 
-                float secRot = mCalendar.get(Calendar.SECOND) * 6f;
-                int minutes = mCalendar.get(Calendar.MINUTE);
-                float minRot = minutes * 6f;
-                float hrRot = ((mCalendar.get(Calendar.HOUR) + (minutes / 60f)) * 30f);
+            float secRot = mCalendar.get(Calendar.SECOND) * 6f;
+            int minutes = mCalendar.get(Calendar.MINUTE);
+            float minRot = minutes * 6f;
+            float hrRot = ((mCalendar.get(Calendar.HOUR) + (minutes / 60f)) * 30f);
 
-                mDateRectF.set(bounds.left + 80, bounds.top + 80, bounds.right - 80, bounds.bottom - 80);
-                String date = mDateFormat.format(mCalendar.getTime()).toUpperCase();
+            mDateRectF.set(bounds.left + 80, bounds.top + 80, bounds.right - 80, bounds.bottom - 80);
+            String date = mDateFormat.format(mCalendar.getTime()).toUpperCase();
 
-                textPath.addArc(mDateRectF, -180, 180);
+            textPath.addArc(mDateRectF, -180, 180);
 
-                canvas.drawTextOnPath(date, textPath, 0, 0, mTextPaint);
+            canvas.drawTextOnPath(date, textPath, 0, 0, mTextPaint);
 
-                if(highTemp != 0.0 && lowTemp != 0.0){
-                    String high = String.valueOf((int) highTemp)+"°";
-                    String low = String.valueOf((int) lowTemp)+"°";
+            if(highTemp != 0.0 && lowTemp != 0.0){
+                String high = String.valueOf((int) highTemp)+"°";
+                String low = String.valueOf((int) lowTemp)+"°";
 
-                    canvas.drawText(high, centerX - (centerX/2) - tempsOffset + mChinSize, centerY, mHighPaint);
-                    canvas.drawText("max", centerX - (centerX/2) - tempsOffset + mChinSize, centerY + mTextPaint.getTextSize(), mTextPaint);
-                    canvas.drawText(low, centerX + (centerX/2) + tempsOffset - mChinSize, centerY , mLowPaint);
-                    canvas.drawText("min", centerX + (centerX/2) + tempsOffset - mChinSize, centerY + mTextPaint.getTextSize(), mTextPaint);
+                canvas.drawText(high, centerX - (centerX/2) - tempsOffset + mArcsMargin, centerY, mHighPaint);
+                canvas.drawText("max", centerX - (centerX/2) - tempsOffset + mArcsMargin, centerY + mTextPaint.getTextSize(), mTextPaint);
+                canvas.drawText(low, centerX + (centerX/2) + tempsOffset - mArcsMargin, centerY , mLowPaint);
+                canvas.drawText("min", centerX + (centerX/2) + tempsOffset - mArcsMargin, centerY + mTextPaint.getTextSize(), mTextPaint);
+            }
+
+            if(!mAmbient) {
+                Bitmap weatherBitmap = BitmapFactory.decodeResource(getResources(), Utility.getArtResourceForWeatherCondition(weatherId));
+                if (weatherBitmap != null) {
+                    Log.d(TAG, "Bitmap is Null, weather_id = " + weatherId);
+                    canvas.drawBitmap(weatherBitmap, centerX - (weatherBitmap.getWidth() / 2), centerY - (weatherBitmap.getHeight() / 2), null);
+                } else {
+                    Log.d(TAG, "Bitmap weather_id = " + weatherId);
                 }
+            }
 
-                if(!mAmbient) {
-                    Bitmap weatherBitmap = BitmapFactory.decodeResource(getResources(), Utility.getArtResourceForWeatherCondition(weatherId));
-                    if (weatherBitmap != null) {
-                        Log.d(TAG, "Bitmap is Null, weather_id = " + weatherId);
-                        canvas.drawBitmap(weatherBitmap, centerX - (weatherBitmap.getWidth() / 2), centerY - (weatherBitmap.getHeight() / 2), null);
-                    } else {
-                        Log.d(TAG, "Bitmap weather_id = " + weatherId);
-                    }
-                }
+            if(!mAmbient) {
+                mSecRectF.set(bounds.left + mArcsMargin, bounds.top + mArcsMargin, bounds.right - mArcsMargin, bounds.bottom - mArcsMargin);
+                canvas.drawArc(mSecRectF, -90, secRot, false, mHandPaint);
+            }
 
-                if(!mAmbient) {
-                    mSecRectF.set(bounds.left + mChinSize, bounds.top + mChinSize, bounds.right - mChinSize, bounds.bottom - mChinSize);
-                    canvas.drawArc(mSecRectF, -90, secRot, false, mHandPaint);
-                }
+            float minMargin = handsStrokeWidth / 2;
+            mMinRectF.set(bounds.left + minMargin + mArcsMargin, bounds.top + minMargin + mArcsMargin, bounds.right - minMargin - mArcsMargin, bounds.bottom - minMargin - mArcsMargin);
 
-                float minMargin = handsStrokeWidth / 2;
-                mMinRectF.set(bounds.left + minMargin + mChinSize, bounds.top + minMargin + mChinSize, bounds.right - minMargin - mChinSize, bounds.bottom - minMargin - mChinSize);
-                canvas.drawArc(mMinRectF, !mAmbient ? -90 : (-90+minRot-10), !mAmbient ? minRot : 10, false, mHandPaint);
+            canvas.drawArc(mMinRectF, !mAmbient ? -90 : (-90 + minRot - 10), !mAmbient ? Math.max(minRot, 1f) : 10, false, mHandPaint);
 
-                float hourMargin = handsStrokeWidth;
-                mHourRectF.set(bounds.left + hourMargin + mChinSize, bounds.top + hourMargin + mChinSize, bounds.right - hourMargin - mChinSize, bounds.bottom - hourMargin - mChinSize);
-                canvas.drawArc(mHourRectF, !mAmbient ? -90 : (-90+hrRot-10), !mAmbient ? hrRot : 10, false, mHandPaint);
+            float hourMargin = handsStrokeWidth;
+            mHourRectF.set(bounds.left + hourMargin + mArcsMargin, bounds.top + hourMargin + mArcsMargin, bounds.right - hourMargin - mArcsMargin, bounds.bottom - hourMargin - mArcsMargin);
+            canvas.drawArc(mHourRectF, !mAmbient ? -90 : (-90 + hrRot - 10), !mAmbient ? Math.max(hrRot, 1f) : 10, false, mHandPaint);
+
+
+
+            float innerTickRadius = centerX - 20;
+            float outerTickRadius = centerX;
+            for (int tickIndex = 0; tickIndex < 12; tickIndex++) {
+                float tickRot = (float) (tickIndex * Math.PI * 2 / 12);
+                float innerX = (float) Math.sin(tickRot) * innerTickRadius;
+                float innerY = (float) -Math.cos(tickRot) * innerTickRadius;
+                float outerX = (float) Math.sin(tickRot) * outerTickRadius;
+                float outerY = (float) -Math.cos(tickRot) * outerTickRadius;
+                canvas.drawLine(centerX + innerX, centerY + innerY,
+                        centerX + outerX, centerY + outerY, mTextPaint);
+            }
+
 
 
 
@@ -404,7 +420,12 @@ public class SunshineWatchFace extends CanvasWatchFaceService {
 
             boolean isRound = insets.isRound();
 
-            mChinSize = insets.getSystemWindowInsetBottom();
+            mArcsMargin = insets.getSystemWindowInsetBottom();
+
+            if(mArcsMargin == 0){
+                mArcsMargin = 5;
+            }
+
 
             mXOffset = resources.getDimension(isRound
                     ? R.dimen.analog_x_offset_round : R.dimen.analog_x_offset);
@@ -526,11 +547,13 @@ public class SunshineWatchFace extends CanvasWatchFaceService {
                 mHandsColor = palette.getVibrantColor(resources.getColor(android.R.color.white));
                 mSecHandColor = palette.getDarkVibrantColor(resources.getColor(android.R.color.white));
 
-                mBackgroundPaint.setColor(mBackgroundColor);
-                mHighPaint.setColor(mHandsColor);
-                mSecPaint.setColor(mSecHandColor);
-                mLowPaint.setColor(mHandsColor);
-                mHandPaint.setColor(mHandsColor);
+                if(!mAmbient) {
+                    mBackgroundPaint.setColor(mBackgroundColor);
+                    mHighPaint.setColor(mHandsColor);
+                    mSecPaint.setColor(mSecHandColor);
+                    mLowPaint.setColor(mHandsColor);
+                    mHandPaint.setColor(mHandsColor);
+                }
 
                 invalidate();
             }
