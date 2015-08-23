@@ -3,6 +3,17 @@ Sunshine WatchFace
 
 Custom WatchFace made for the Sunshine app from Udacity/Google Advance Android Development course. 
 
+Setting Project Number
+----------------------
+
+On MainActivity set your Project Number obtained from Google Developers Console
+
+    /**
+     * Substitute you own project number here. This project number comes
+     * from the Google Developers Console.
+     */
+    static final String PROJECT_NUMBER = "Your Project Number";
+
 Original Readme
 ===================================
 
