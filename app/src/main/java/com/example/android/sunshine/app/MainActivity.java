@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
      * Substitute you own project number here. This project number comes
      * from the Google Developers Console.
      */
-    static final String PROJECT_NUMBER = "1071199265090";
+    static final String PROJECT_NUMBER = "Your Project Number";
 
     private boolean mTwoPane;
     private String mLocation;
