@@ -1,5 +1,13 @@
-Advanced Android Sample App
+Sunshine WatchFace
+===================
+
+Custom WatchFace made for the Sunshine app from Udacity/Google Advance Android Development course. 
+
+Original Readme
 ===================================
+
+Advanced Android Sample App
+---------------------------
 
 Synchronizes weather information from OpenWeatherMap on Android Phones and Tablets. Used in the Udacity Advanced Android course.
 
