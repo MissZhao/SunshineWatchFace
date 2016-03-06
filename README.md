@@ -7,6 +7,13 @@ Custom WatchFace made for the Sunshine app from Udacity/Google Advance Android D
 
 ![alt text](https://lh3.googleusercontent.com/6Rz4b7zYt10E5xc_LO9H6sCfnbjaZMsOKoAfkjTSAcWkGimHk5ZP4I-GqN3k5TTEtGN0=w5760-h3600-rw-no)
 
+##Project Overview
+In this project, built a wearable watch face for Sunshine to run on an Android Wear device.
+
+##Why this Project?
+Android Wear is an exciting way to integrate your app more directly into users’ lives. As a new developer, it will be important for you to understand how to perform this integration. This project gives you an opportunity to design a companion app for Sunshine, tying it to a watch face in order to enrich the experience.
+
+
 ##Installation
 * Clone this repository.
 ```
