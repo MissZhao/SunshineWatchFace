@@ -3,6 +3,10 @@ Sunshine WatchFace
 
 Custom WatchFace made for the Sunshine app from Udacity/Google Advance Android Development course. 
 
+![alt text](https://lh3.googleusercontent.com/S1itjX7H32L0T8o3FFd01konjOrSnAwB5HwBd7XZHJ4VPG2VYrouDoqctnMEh0gMmuQ7=w5760-h3600-rw-no)
+
+![alt text](https://lh3.googleusercontent.com/6Rz4b7zYt10E5xc_LO9H6sCfnbjaZMsOKoAfkjTSAcWkGimHk5ZP4I-GqN3k5TTEtGN0=w5760-h3600-rw-no)
+
 Setting Project Number
 ----------------------
 
