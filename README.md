@@ -7,6 +7,15 @@ Custom WatchFace made for the Sunshine app from Udacity/Google Advance Android D
 
 ![alt text](https://lh3.googleusercontent.com/6Rz4b7zYt10E5xc_LO9H6sCfnbjaZMsOKoAfkjTSAcWkGimHk5ZP4I-GqN3k5TTEtGN0=w5760-h3600-rw-no)
 
+##Installation
+* Clone this repository.
+```
+git clone https://github.com/josemontiel/SunshineWatchFace.git
+```
+* Import it into Android Studio.
+* Run it or Generate a Signed APK to install into your Android Device.
+
+
 Setting Project Number
 ----------------------
 
